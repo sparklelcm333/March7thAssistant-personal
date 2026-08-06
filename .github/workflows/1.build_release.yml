@@ -1,0 +1,213 @@
+name: Build & Release App
+
+# 触发条件：手动触发或推送版本变更到 main
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/config/version.txt'
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    env:
+      PYTHONHASHSEED: 0
+      SOURCE_DATE_EPOCH: 315532800
+      MARCH7TH_LOG_LEVEL: DEBUG
+      MARCH7TH_BROWSER_DOWNLOAD_USE_MIRROR: false
+      PYTHONIOENCODING: utf-8
+
+    steps:
+      # 签出代码
+      - name: Checkout code
+        uses: actions/checkout@v6.0.2
+        with:
+          submodules: "false"
+          fetch-depth: 0
+
+      # 读取版本号
+      - name: Read version
+        id: version
+        run: |
+          $v = Get-Content -Path "assets/config/version.txt" -Raw
+          $v = $v.Trim()
+          echo "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $v"
+        shell: pwsh
+
+      # 创建标签并推送
+      - name: Create and push tag
+        run: |
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }}
+
+      # 设置 uv 和 Python 环境
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          version: "0.11.15"
+          python-version: "3.14.5"
+          enable-cache: true
+          cache-python: true
+          prune-cache: true
+
+      # 安装依赖
+      - name: Install dependencies
+        run: |
+          uv sync --group build
+          uv run python build.py --task ocr
+
+      # 下载 HDiffPatch 工具
+      - name: Download HDiffPatch
+        run: |
+          curl -L -o hdiffpatch.zip https://github.com/sisong/HDiffPatch/releases/download/v5.1.3/hdiffpatch_v5.1.3_bin_windows64.zip
+          python -c "import zipfile; zipfile.ZipFile('hdiffpatch.zip').extractall('hdiffpatch')"
+          echo "HDIFFZ_PATH=${{ github.workspace }}\hdiffpatch\windows64\hdiffz.exe" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      # 生成程序
+      - name: Generate program
+        run: |
+          $p2 = Start-Process -FilePath "uv" -ArgumentList 'run pyinstaller --distpath ".\dist" ".\March7thAssistant.spec" -y' -PassThru -NoNewWindow
+          $p2.WaitForExit()
+          if ($p2.ExitCode -ne 0) {
+            Write-Host "Exit codes: Launcher=$($p2.ExitCode)"
+            exit 1
+          }
+
+      # 移动资源到dist目录
+      - name: Move assets to dist directory
+        run: |
+          Copy-Item -Path ".\assets\" -Destination ".\dist\March7thAssistant\assets\" -Recurse -Force
+          Copy-Item -Path ".\README.md" -Destination ".\dist\March7thAssistant\" -Force
+
+      # 生成日志并重命名发布目录
+      - name: Rename to release dir
+        run: |
+          uv run python build.py --task changelog -v "${{ steps.version.outputs.version }}" -o changelog_temp.md
+          Rename-Item -Path .\dist\March7thAssistant -NewName March7thAssistant_full
+
+      # 获取上一版本 tag
+      - name: Get previous tag
+        id: prev_tag
+        run: |
+          $current = "${{ steps.version.outputs.version }}"
+          $prev = git tag --sort=-creatordate | Where-Object { $_ -ne $current } | Select-Object -First 1
+          if (-not $prev) {
+            Write-Warning "未找到上一版本 tag，将跳过增量补丁生成"
+          }
+          echo "prev_tag=$prev" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # 获取上上个版本 tag
+      - name: Get previous previous tag
+        id: prev_prev_tag
+        run: |
+          $current = "${{ steps.version.outputs.version }}"
+          $prevprev = git tag --sort=-creatordate | Where-Object { $_ -ne $current } | Select-Object -Skip 1 -First 1
+          if (-not $prevprev) {
+            Write-Warning "未找到上上个版本 tag，将跳过第二个增量补丁生成"
+          }
+          echo "prev_prev_tag=$prevprev" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # 下载并解压上上个版本
+      - name: Download and extract previous-previous version
+        if: steps.prev_prev_tag.outputs.prev_prev_tag != ''
+        run: |
+          $prevprevTag = "${{ steps.prev_prev_tag.outputs.prev_prev_tag }}"
+          if ($prevprevTag) {
+            gh release download $prevprevTag --repo ${{ github.repository }} --pattern "*full.7z" --dir ./old_build_prev
+            $full7z = Get-ChildItem -Path ./old_build_prev -Filter "*full.7z" | Select-Object -First 1
+            if ($full7z) {
+              & "C:\Program Files\7-Zip\7z.exe" x -y $full7z.FullName -o"./prev_version"
+            }
+          }
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+
+      # 把 prevprev 数据复制到专用目录
+      - name: Move prevprev version to its directory
+        if: steps.prev_prev_tag.outputs.prev_prev_tag != ''
+        run: |
+          if (Test-Path "./prev_version/March7thAssistant_full") {
+            Remove-Item -Path "./prev_prev_version" -Recurse -Force -ErrorAction SilentlyContinue
+            Copy-Item -Path "./prev_version/March7thAssistant_full" -Destination "./prev_prev_version/March7thAssistant_full" -Recurse -Force
+          }
+        shell: pwsh
+
+      # 下载并解压上一版本
+      - name: Download and extract previous version
+        if: steps.prev_tag.outputs.prev_tag != ''
+        run: |
+          $prevTag = "${{ steps.prev_tag.outputs.prev_tag }}"
+          gh release download $prevTag --repo ${{ github.repository }} --pattern "*full.7z" --dir ./old_build
+          $full7z = Get-ChildItem -Path ./old_build -Filter "*full.7z" | Select-Object -First 1
+          if ($full7z) {
+            & "C:\Program Files\7-Zip\7z.exe" x -y $full7z.FullName -o"./prev_version"
+          }
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+
+      # 生成针对上个版本的增量补丁
+      - name: Generate incremental patch
+        if: steps.prev_tag.outputs.prev_tag != ''
+        id: gen_patch
+        run: |
+          $currDir = ".\dist\March7thAssistant_full"
+          $oldDir = ".\prev_version\March7thAssistant_full"
+          $patchName = "patch_from_${{ steps.prev_tag.outputs.prev_tag }}_to_${{ steps.version.outputs.version }}"
+          & $env:HDIFFZ_PATH -WD -d $oldDir $currDir $patchName
+          echo "patch_name=$patchName" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # 生成针对上上个版本的增量补丁
+      - name: Generate second incremental patch
+        if: steps.prev_prev_tag.outputs.prev_prev_tag != ''
+        id: gen_patch2
+        run: |
+          $currDir = ".\dist\March7thAssistant_full"
+          $oldDir = ".\prev_prev_version\March7thAssistant_full"
+          $patchName = "patch_from_${{ steps.prev_prev_tag.outputs.prev_prev_tag }}_to_${{ steps.version.outputs.version }}"
+          & $env:HDIFFZ_PATH -WD -d $oldDir $currDir $patchName
+          echo "patch_name2=$patchName" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # 创建完整的压缩包
+      - name: Create full 7z archive
+        run: |
+          & "C:\Program Files\7-Zip\7z.exe" a -t7z -m0=lzma2 -ms=on -mx=9 -md=128m .\dist\March7thAssistant_full.7z .\dist\March7thAssistant_full\
+        shell: pwsh
+
+      # 准备发布文件列表
+      - name: Prepare release files
+        id: release_files
+        run: |
+          $files = @("./dist/March7thAssistant_full.7z")
+          $patchName = "${{ steps.gen_patch.outputs.patch_name }}"
+          if ($patchName) {
+            $files += $patchName
+          }
+          $patchName2 = "${{ steps.gen_patch2.outputs.patch_name2 }}"
+          if ($patchName2) {
+            $files += $patchName2
+          }
+          "release_files<<EOF" >> $env:GITHUB_OUTPUT
+          $files -join "`n" >> $env:GITHUB_OUTPUT
+          "EOF" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      # 创建GitHub发布
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: March7thAssistant ${{ steps.version.outputs.version }}
+          body_path: changelog_temp.md
+          files: ${{ steps.release_files.outputs.release_files }}
+          prerelease: ${{ contains(steps.version.outputs.version, 'beta') }}
+          make_latest: true

@@ -1,0 +1,132 @@
+<div align="center">
+  <h1 align="center">
+    <img src="./assets/screenshot/March7th.png" width="200">
+    <br/>
+    March7thAssistant-personal
+  </h1>
+</div>
+
+<br/>
+
+<div align="center">
+⭐ 个人定制版 · 基于 <a href="https://github.com/moesnow/March7thAssistant">moesnow/March7thAssistant</a>
+</div>
+
+<br/>
+
+## 与上游的差异
+
+1. **增量更新**：patch-only 增量更新，极大加快更新速度
+2. **按需安装组件**：模拟宇宙、锄大地等原本必装的组件改为按需安装，减少不必要的存储占用
+3. **单 exe 双模式**：GUI 与 CLI 无头任务合并为一个 exe（运行时可能弹出 cmd 窗口，此为权衡之举）
+4. **组件管理器**：GUI 内集中管理组件（模拟宇宙/锄大地/FPS 解锁器/浏览器）的下载与更新
+5. **去除个人不需要的功能**：移除 Mirror酱、匿名数据上报等
+
+> ⚠️ 个人自用版，不保证稳定性，不保证与上游同步更新。
+
+<div align="center">
+    <img src="assets/screenshot/star.gif" alt="Star" width="186" height="60">
+</div>
+
+<br/>
+
+<div align="center">
+
+**简体中文** | [繁體中文](./README_TW.md) | [English](./README_EN.md) | [日本語](./README_JA.md) | [한국어](./README_KR.md)
+
+快速上手，请访问：[使用教程](https://m7a.top/#/assets/docs/Tutorial)
+
+遇到问题，请在提问前查看：[FAQ](https://m7a.top/#/assets/docs/FAQ)
+
+</div>
+
+## 功能简介
+
+- **日常**：清体力、每日实训、领取奖励、委托、锄大地
+- **周常**：历战余响、货币战争、差分宇宙、混沌回忆、虚构叙事、末日幻影
+- **云·星穹铁道**：支持后台运行、无窗口运行和 Docker 运行
+- **抽卡记录导出**：支持 [UIGF](https://uigf.org/zh/standards/uigf.html)/[SRGF](https://uigf.org/zh/standards/srgf.html) 标准
+- **工具箱**：自动对话、解锁帧率、兑换码
+- 每日实训等任务的完成情况支持**消息推送**
+- 任务刷新或体力恢复到指定值后**自动启动**
+- 任务完成后**声音提示、自动关闭游戏或关机等**
+
+详情见 图形界面设置 或 [配置文件](assets/config/config.example.yaml) 
+
+## 界面展示
+
+![README](assets/screenshot/README.png)
+
+## 注意事项
+
+- 个人自用版，不保证稳定性。如需原版（上游）体验可前往 [moesnow/March7thAssistant](https://github.com/moesnow/March7thAssistant)
+
+
+## 下载安装
+
+前往 [Releases](https://github.com/sparklelcm333/March7thAssistant-personal/releases/latest) 下载后解压双击三月七图标的 `March7thAssistant.exe` 打开图形界面
+
+## 源码运行
+
+如果你是完全不懂的小白，请通过上面的方式下载安装，可以不用往下看了。
+
+推荐使用 Python 3.12 或更高版本。
+
+Windows 下如果通过终端启动，建议使用管理员模式打开 PowerShell、Windows Terminal 或 CMD；Windows 11 24H2 及以上也可以按 [Sudo for Windows](https://learn.microsoft.com/zh-cn/windows/advanced-settings/sudo/) 的方式执行。
+
+```cmd
+# Installation (using venv is recommended)
+git clone https://github.com/sparklelcm333/March7thAssistant-personal
+cd March7thAssistant-personal
+pip install -r requirements.txt
+python main.py
+
+# Update
+git pull
+```
+
+如果使用 `uv`，推荐直接使用项目自带的 `pyproject.toml` 工作流：
+
+```cmd
+# Installation (using uv)
+git clone https://github.com/sparklelcm333/March7thAssistant-personal
+cd March7thAssistant-personal
+uv sync
+
+# 启动图形界面
+uv run python main.py
+
+# 查看命令行帮助
+uv run python main.py -h
+
+# 执行完整运行
+uv run python main.py
+
+# 执行每日实训
+uv run python main.py daily
+```
+
+<details>
+<summary>开发相关</summary>
+
+获取 crop 参数表示的裁剪坐标可以通过小助手工具箱内的捕获截图功能
+
+</details>
+
+
+## 相关项目
+
+March7thAssistant 离不开以下开源项目和运行时依赖的帮助，感谢所有维护者与贡献者：
+
+- 模拟宇宙自动化 [https://github.com/CHNZYX/Auto_Simulated_Universe](https://github.com/CHNZYX/Auto_Simulated_Universe) ：提供模拟宇宙相关能力
+- 锄大地自动化 [https://github.com/linruowuyin/Fhoe-Rail](https://github.com/linruowuyin/Fhoe-Rail) ：提供锄大地相关能力
+- OCR 文字识别 [https://github.com/RapidAI/RapidOCR](https://github.com/RapidAI/RapidOCR) ：提供游戏内文字识别能力
+- 图形界面组件库 [https://github.com/zhiyiYo/PyQt-Fluent-Widgets](https://github.com/zhiyiYo/PyQt-Fluent-Widgets) ：提供主要界面组件与交互体验
+- 图像处理与自动化相关依赖 `OpenCV`、`PyAutoGUI` 等：提供截图采集、图像处理与基础自动化能力
+- 推理加速相关依赖 `ONNX Runtime`、`OpenVINO` ：为 OCR 和模型推理提供 CPU / GPU 加速支持
+
+此外，`requirements.txt` 中还包含大量底层依赖，在这里不一一列出；同样感谢这些项目对本项目的支持。
+
+## 许可证
+
+本仓库基于 [moesnow/March7thAssistant](https://github.com/moesnow/March7thAssistant)（GPL-3.0）修改，遵循 GPL-3.0。详见 [LICENSE](LICENSE)。
