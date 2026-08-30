@@ -1,5 +1,12 @@
 # 更新日志
 
+## v2026.8.30
+- 增量更新：patch-only 增量更新，极大加快更新速度
+- 按需安装组件：模拟宇宙、锄大地等原本必装的组件改为按需安装，减少不必要的存储占用
+- 单 exe 双模式：GUI 与 CLI 无头任务合并为一个 exe（运行时可能弹出 cmd 窗口，此为权衡之举）
+- 组件管理器：GUI 内集中管理组件（模拟宇宙/锄大地/FPS 解锁器/浏览器）的下载与更新
+- 去除个人不需要的功能：移除 Mirror酱、匿名数据上报等
+
 ## v2026.8.28
 - 启动游戏前检测游戏是否已在运行 [#1189](https://github.com/moesnow/March7thAssistant/pull/1189) @girl-dream
 - 邮件推送新增纯文本模式 [#1173](https://github.com/moesnow/March7thAssistant/pull/1173)
