@@ -1,5 +1,9 @@
 # 更新日志
 
+## v2026.9.12
+- 修复货币战争入口交互异常 [#1209](https://github.com/moesnow/March7thAssistant/pull/1209) @LumiaBlack51
+- 修复 OpenSSL 环境变量导致的启动闪退
+
 ## v2026.8.30
 - 增量更新：patch-only 增量更新，极大加快更新速度
 - 按需安装组件：模拟宇宙、锄大地等原本必装的组件改为按需安装，减少不必要的存储占用
