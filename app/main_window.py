@@ -79,8 +79,9 @@ class ClickableLabel(QLabel):
 
 
 class MainWindow(MSFluentWindow):
-    def __init__(self):
+    def __init__(self, start_minimized_to_tray=False):
         super().__init__()
+        self.start_minimized_to_tray = start_minimized_to_tray
         self.detected_update_version = None
         self.updateVersionBadge = None
         qconfig.themeChanged.connect(self._on_theme_changed)
@@ -90,6 +91,9 @@ class MainWindow(MSFluentWindow):
         self.initInterface()
         self.initNavigation()
         self.initSystemTray()
+
+        if self.start_minimized_to_tray:
+            self.hide()
 
         # 初始化配置文件监视器
         self.config_watcher = ConfigWatcher(os.path.abspath(cfg.config_path), self)

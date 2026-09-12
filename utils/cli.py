@@ -62,6 +62,11 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='静默输出（仅 app_update 任务生效，只报结果/错误）',
     )
+    optional.add_argument(
+        '--start-minimized-to-tray',
+        action='store_true',
+        help='启动后最小化到托盘（GUI）',
+    )
 
     args = parser.parse_args()
 

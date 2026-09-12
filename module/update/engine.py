@@ -162,7 +162,7 @@ class UpdateEngine:
 
     # ── 执行器 ───────────────────────────────────────────────────────
 
-    def launch_executor(self, wait_pid: int):
+    def launch_executor(self, wait_pid: int, start_minimized_to_tray: bool = False):
         """复制 finalize.ps1 + hpatchz.exe 到 temp，并启动外置执行器。
 
         实际编排在 apply.launch_patch_apply（纯函数，可独立测试）。
@@ -175,6 +175,7 @@ class UpdateEngine:
             wait_pid=wait_pid,
             temp_path=self.temp_path,
             log_fn=self._log,
+            start_minimized_to_tray=start_minimized_to_tray,
         )
         self._emit_progress(UpdateStage.DONE, tr("更新程序已启动"), 1, 1)
 

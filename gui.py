@@ -219,7 +219,8 @@ def run_gui() -> int:
 
     # GUI 不接受任务参数（任务仅无头模式执行），主窗口纯 GUI 启动
     from app.main_window import MainWindow
-    w = MainWindow()
+    _start_min = '--start-minimized-to-tray' in sys.argv[1:]
+    w = MainWindow(start_minimized_to_tray=_start_min)
 
     # 注册主窗口并处理启动期间收到的挂起消息（仅激活窗口，无任务）
     global _pending_messages

@@ -17,7 +17,8 @@
 param(
     [int]$WaitPid,
     [string]$Patch,
-    [string]$Target
+    [string]$Target,
+    [switch]$StartMinimized
 )
 
 $ErrorActionPreference = "Stop"
@@ -54,7 +55,9 @@ function Start-MainProgram {
     # 启动主程序（当前构建产物 March7thAssistant.exe）。Start-Process 本身即分离进程。
     $launcher = Join-Path $Target "March7thAssistant.exe"
     if (Test-Path $launcher) {
-        Start-Process -FilePath $launcher -WorkingDirectory $Target
+        $argList = @()
+        if ($StartMinimized) { $argList += "--start-minimized-to-tray" }
+        Start-Process -FilePath $launcher -WorkingDirectory $Target -ArgumentList $argList
         return $true
     }
     Write-Log "ERROR: 未找到可启动的主程序"

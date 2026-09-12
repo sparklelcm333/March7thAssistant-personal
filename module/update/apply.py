@@ -67,6 +67,7 @@ def launch_patch_apply(
     temp_path: str | None = None,
     target_dir: str | None = None,
     log_fn=None,
+    start_minimized_to_tray: bool = False,
 ) -> None:
     """复制执行器脚本与 hpatchz 副本到 temp，并启动 powershell（无窗口）。
 
@@ -109,6 +110,8 @@ def launch_patch_apply(
         '-Target',
         os.path.abspath(target_dir),
     ]
+    if start_minimized_to_tray:
+        cmd.append('-StartMinimized')
     creationflags = getattr(subprocess, 'CREATE_NO_WINDOW', 0) | getattr(
         subprocess, 'CREATE_NEW_PROCESS_GROUP', 0
     )

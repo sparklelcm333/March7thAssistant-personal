@@ -1479,6 +1479,8 @@
     "获取更新信息失败": "",
     "下载超时，请检查网络后重试": "",
     "下载进度": "",
+    "选择流程:": "Select workflow:",
+    "请选择要运行的流程编排": "Please select a workflow to run",
     "游戏已在运行": "Game Already Running",
     "无需重复启动游戏": "There is no need to launch it again",
     "纯文本模式": "Plain Text Mode",

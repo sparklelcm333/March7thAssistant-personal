@@ -375,7 +375,14 @@ class UpdaterWindow(DownloadProgressMixin, MessageBoxBase):
 
         try:
             from module.update.apply import launch_patch_apply
-            launch_patch_apply(patch_file_path=self._prepared_patch_file_path, wait_pid=os.getpid())
+            _start_minimized = False
+            if self.main_window is not None:
+                _start_minimized = not self.main_window.isVisible()
+            launch_patch_apply(
+                patch_file_path=self._prepared_patch_file_path,
+                wait_pid=os.getpid(),
+                start_minimized_to_tray=_start_minimized,
+            )
         except Exception as e:
             self._on_failed(str(e) or tr("启动更新器失败"))
             return
