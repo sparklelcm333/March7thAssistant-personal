@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 
-from utils.tasks import AVAILABLE_TASKS
+from utils.tasks import AVAILABLE_TASKS, task_display_names
 
 
 def parse_args() -> argparse.Namespace:
@@ -13,13 +13,14 @@ def parse_args() -> argparse.Namespace:
     - -e/--exit：任务正常完成后自动退出程序（无头模式）
     """
     # 生成任务列表（对齐格式化）用于 --help 末尾
-    task_lines = [f"  {task_id:<20} {task_name}" for task_id, task_name in AVAILABLE_TASKS.items()]
+    task_lines = [f"  {task_id:<20} {task_name}" for task_id, task_name in task_display_names().items()]
     task_list = "\n".join(task_lines)
 
     parser = argparse.ArgumentParser(
         prog='March7thAssistant',
         description='三月七小助手 - 崩坏：星穹铁道自动化工具',
-        epilog=f"可用任务 (TASK):\n{task_list}\n\n更多信息请访问: https://m7a.top",
+        epilog=f"可用任务 (TASK):\n{task_list}\n\n更多信息请访问: https://m7a.top\n"
+               '运行自定义流程: March7thAssistant.exe --workflow-name "流程名称"',
         add_help=False,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -48,9 +49,14 @@ def parse_args() -> argparse.Namespace:
         help='禁用立即运行（CLI 模式）',
     )
     optional.add_argument(
+        '--list-workflows',
+        action='store_true',
+        help='列出所有可用的流程',
+    )
+    optional.add_argument(
         '--workflow-name',
         metavar='NAME',
-        help='按名称运行流程（无头模式）',
+        help='按名称运行流程（用 --list-workflows 查看可用名称）',
     )
     optional.add_argument(
         '--workflow-step-path',

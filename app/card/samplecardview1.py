@@ -4,6 +4,8 @@ from PySide6.QtGui import QAction, QPixmap
 
 from qfluentwidgets import RoundMenu, IconWidget, FlowLayout, CardWidget, InfoBarIcon, TeachingTip, TeachingTipTailPosition, InfoBar, InfoBarPosition
 from ..common.style_sheet import StyleSheet
+from module.config import cfg
+from module.localization import tr
 from module.logger import log
 
 
@@ -51,7 +53,7 @@ class SampleCard(CardWidget):
         TeachingTip.create(
             target=self.iconWidget,
             icon=InfoBarIcon.SUCCESS,
-            title='执行完成(＾∀＾●)',
+            title=tr('执行完成(＾∀＾●)'),
             content="",
             isClosable=False,
             tailPosition=TeachingTipTailPosition.BOTTOM,
@@ -63,7 +65,7 @@ class SampleCard(CardWidget):
         TeachingTip.create(
             target=self.iconWidget,
             icon=InfoBarIcon.ERROR,
-            title='执行出错',
+            title=tr('执行出错'),
             content=str(e),
             isClosable=False,
             tailPosition=TeachingTipTailPosition.BOTTOM,

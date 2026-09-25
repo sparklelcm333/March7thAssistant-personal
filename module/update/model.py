@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Callable
 
-from packaging.version import parse
+from utils.version import Version
 
 from module.localization import tr
 
@@ -100,7 +100,7 @@ LogCallback = Callable[[str, str], None]
 DownloadProgressCallback = Callable[[int | None, int | None], None]
 
 # 下载进行中的统一文案（GUI/CLI/组件管理器共用，避免措辞漂移）
-DOWNLOADING_MESSAGE = tr('正在下载')
+DOWNLOADING_MESSAGE = '正在下载'  # msgid：显示时 tr()
 
 
 # ── 纯工具函数 ───────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ def is_update_available(remote_version: str, local_version: str) -> bool:
     if not local_version:
         return True
     try:
-        return parse(remote_version.lstrip('v')) > parse(local_version.lstrip('v'))
+        return Version(remote_version) > Version(local_version)
     except Exception:
         return True
 

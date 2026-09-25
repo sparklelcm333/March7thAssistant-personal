@@ -315,7 +315,7 @@ class UpdaterWindow(DownloadProgressMixin, MessageBoxBase):
         self.detail_label.setText("")
         self._set_indeterminate(True)
         self.log_edit.clear()
-        _append_log_text(self.log_edit, "info", tr("更新任务已启动"))
+        _append_log_text(self.log_edit, "info", "更新任务已启动")
 
         self.worker = UpdatePrepareWorker(self, info=self.info)
         self._connect_worker_signals(self.worker)
@@ -360,7 +360,7 @@ class UpdaterWindow(DownloadProgressMixin, MessageBoxBase):
         self.title_label.setText(tr("更新已准备完成"))
         self.status_label.setText(tr('更新补丁已下载完成，点击“开始安装”后将关闭主程序并安装新版本'))
         self.detail_label.setText("")
-        _append_log_text(self.log_edit, "info", tr("更新已准备完成，等待开始安装"))
+        _append_log_text(self.log_edit, "info", "更新已准备完成，等待开始安装")
         if self.background_tooltip is not None:
             self.background_tooltip.setTitle(tr("更新已准备完成"))
             self.background_tooltip.setContent(
@@ -375,9 +375,11 @@ class UpdaterWindow(DownloadProgressMixin, MessageBoxBase):
 
         try:
             from module.update.apply import launch_patch_apply
-            _start_minimized = False
-            if self.main_window is not None:
-                _start_minimized = not self.main_window.isVisible()
+            # 与上游 update_window._launch_helper 同语义：主窗口处于托盘最小化时才让执行器恢复托盘
+            _start_minimized = (
+                self.main_window is not None
+                and self.main_window.is_minimized_to_tray()
+            )
             launch_patch_apply(
                 patch_file_path=self._prepared_patch_file_path,
                 wait_pid=os.getpid(),
@@ -391,7 +393,7 @@ class UpdaterWindow(DownloadProgressMixin, MessageBoxBase):
         self.retry_button.setEnabled(False)
         self.background_button.setEnabled(False)
         self.close_button.setEnabled(False)
-        _append_log_text(self.log_edit, "info", tr("开始安装"))
+        _append_log_text(self.log_edit, "info", "开始安装")
         self.title_label.setText(tr("开始安装"))
         self.status_label.setText(tr("请勿关闭此窗口，更新完成后会自动启动新版本"))
         self.detail_label.setText("")

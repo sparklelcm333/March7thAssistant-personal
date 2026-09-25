@@ -52,13 +52,13 @@ def run_cli(args=None):
 
     if sys.platform == 'win32':
 
-        import pyuac
+        from utils.admin import is_user_admin, run_as_admin
 
-        if not pyuac.isUserAdmin():
+        if not is_user_admin():
 
             try:
 
-                pyuac.runAsAdmin(False)
+                run_as_admin(wait=False)
 
                 sys.exit(0)
 
@@ -78,7 +78,7 @@ def run_cli(args=None):
 
     from module.ocr import ocr
 
-    from module.workflow import WorkflowRunner, load_workflow_execution_payload
+    from module.workflow import WorkflowRunner, load_workflow_execution_payload, describe_available_workflows
 
     from utils.screenshot_util import save_error_screenshot
 
@@ -353,7 +353,22 @@ def run_notify_action():
 
 def run_workflow_action(workflow_name: str, workflow_step_path=None):
 
-    workflow = load_workflow_execution_payload(workflow_name, workflow_step_path)
+    # 先校验用户输入（名称/步骤路径），再做游戏窗口检查与切换：
+    # 名称错误不应要求游戏在运行才能得到反馈
+    try:
+        workflow = load_workflow_execution_payload(workflow_name, workflow_step_path)
+    except ValueError:
+        # 名称/步骤路径错误属于用户输入问题：给出可用流程清单，不走异常通知/截图
+        step_hint = f"（步骤路径：{workflow_step_path}）" if workflow_step_path else ""
+        log.error(
+            f"未找到流程「{workflow_name}」或步骤路径无效{step_hint}"
+            f"；可用流程：{describe_available_workflows()}（使用 --list-workflows 查看）"
+        )
+        sys.exit(1)
+    # 与流程编排启动语义一致：游戏未启动或无法切换到游戏窗口时直接报错终止，
+    # 避免按键/点击打进当前聚焦的其它窗口（定时任务、命令行直跑均在此收口）
+    if not game.ensure_game_ready():
+        sys.exit(1)
 
     runner = WorkflowRunner(
 
@@ -372,6 +387,9 @@ def run_workflow_action(workflow_name: str, workflow_step_path=None):
 def main(action=None, no_run_immediately=False, workflow_name=None, workflow_step_path=None, quiet=False):
 
     first_run()
+    # 启动暂停控制器（仅在 GUI 注入了 MARCH7TH_CONTROL_FILE 时生效，其余场景惰性关闭）
+    from utils.pause import pause_ctl
+    pause_ctl.start()
 
 
 
@@ -523,12 +541,29 @@ def run_cli_entry(args=None):
 
 
 if __name__ == "__main__":
+    # CLI i18n：解析参数前先加载界面语言，使 --help 的任务名随 ui_language 本地化
+    from module.localization import load_language
+    load_language()
     # 唯一入口：解析参数 → 无头模式执行任务，否则启动 GUI
     args = parse_args()
+    # --list-workflows：列出可用流程后退出（不进入任务/GUI 模式）
+    if getattr(args, "list_workflows", False):
+        from module.workflow import list_workflow_names
+        names = list_workflow_names()
+        print("\n可用的流程列表:")
+        print("-" * 40)
+        if names:
+            for name in names:
+                print(f"  {name}")
+        else:
+            print("  （暂无流程，请先在图形界面的流程编排中创建）")
+        print("-" * 40)
+        sys.exit(0)
     _is_task_mode = bool(args.task or args.workflow_name)
     if _is_task_mode:
         sys.exit(run_cli_entry(args))
     else:
         # GUI 模式：提权由 gui.py/manifest 处理，直接启动图形界面
         from gui import run_gui
-        sys.exit(run_gui())
+        # 参数已由 parse_args 解析，直接透传，避免 gui 再从 sys.argv 二次判定（缩写等语义不一致）
+        sys.exit(run_gui(start_minimized_to_tray=getattr(args, "start_minimized_to_tray", False)))

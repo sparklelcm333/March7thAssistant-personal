@@ -118,7 +118,7 @@ def _qt_message_handler(mode, context, message):
 
 # ── GUI 启动 ─────────────────────────────────────────────────────────
 
-def run_gui() -> int:
+def run_gui(start_minimized_to_tray: bool = False) -> int:
     """启动图形界面（Qt 事件循环）。返回进程退出码。
 
     由 main.py 在非无头模式调用；负责 Qt 初始化、单实例、语言、主窗口。
@@ -128,12 +128,12 @@ def run_gui() -> int:
         hide_console()
 
     # 打包版由 spec 的 uac_admin=True（manifest 提权）保证管理员权限，
-    # 运行时无需 pyuac 再提权（冗余）；源码模式无 manifest，仍需 pyuac。
+    # 运行时无需内置提权（冗余）；源码模式无 manifest，仍需提权。
     if sys.platform == 'win32' and not is_frozen():
-        import pyuac
-        if not pyuac.isUserAdmin():
+        from utils.admin import is_user_admin, run_as_admin
+        if not is_user_admin():
             try:
-                pyuac.runAsAdmin(False)
+                run_as_admin(wait=False)
                 return 0
             except Exception:
                 return 1
@@ -219,8 +219,7 @@ def run_gui() -> int:
 
     # GUI 不接受任务参数（任务仅无头模式执行），主窗口纯 GUI 启动
     from app.main_window import MainWindow
-    _start_min = '--start-minimized-to-tray' in sys.argv[1:]
-    w = MainWindow(start_minimized_to_tray=_start_min)
+    w = MainWindow(start_minimized_to_tray=start_minimized_to_tray)
 
     # 注册主窗口并处理启动期间收到的挂起消息（仅激活窗口，无任务）
     global _pending_messages

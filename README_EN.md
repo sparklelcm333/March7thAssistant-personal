@@ -35,10 +35,10 @@ Before asking for help, please check: [FAQ](https://m7a.top/#/assets/docs/FAQ_en
 ## Feature Overview
 
 - **Daily**: Spend Trailblaze Power, Daily Training, claim rewards, dispatch, field farming
-- **Weekly**: Echo of War, Currency Wars, Divergent Universe, Memory of Chaos, Pure Fiction, Apocalyptic Shadow
-- **Cloud Honkai: Star Rail**: Supports background execution, headless execution, and Docker deployment
+- **Weekly**: Echo of War, Simulated Universe, Divergent Universe, Currency Wars, Memory of Chaos, Pure Fiction, Apocalyptic Shadow
+- **Cloud Honkai: Star Rail**: Supports background execution, headless execution, and [Docker](https://m7a.top/#/assets/docs/Docker) deployment
 - **Gacha record export**: Supports the [UIGF](https://uigf.org/zh/standards/uigf.html) / [SRGF](https://uigf.org/zh/standards/srgf.html) standards
-- **Toolbox**: Auto dialogue, FPS unlock, redemption codes
+- **Toolbox**: Auto dialogue, FPS unlock, redemption codes, touch mode
 - Task results such as Daily Training support **push notifications**
 - Supports **automatic start** after task refresh or when Trailblaze Power recovers to a specified value
 - Supports **sound alerts, automatic game exit, shutdown, and more** after tasks finish

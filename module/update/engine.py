@@ -93,15 +93,15 @@ class UpdateEngine:
 
         返回下载 URL 如果有新版本；返回 None 如果已是最新。
         """
-        self._log("info", tr("开始检测更新"))
+        self._log("info", "开始检测更新")
         try:
             info = check_for_update(prerelease=prerelease)
         except Exception as e:
-            self._log("error", f"{tr('检测更新失败')}: {e}")
+            self._log("error", f"检测更新失败: {e}")
             raise UpdateEngineError(tr("检测更新失败")) from e
 
         if info is None:
-            self._log("info", tr("当前已是最新版本"))
+            self._log("info", "当前已是最新版本")
             return None
 
         # patch 是唯一自动路径：优先补丁，无补丁时（落后版本等）报错提示手动

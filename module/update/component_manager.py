@@ -62,8 +62,8 @@ def ensure_component_before_task(task_id: str, parent) -> bool:
 
     box = MessageBox(
         tr('组件未安装'),
-        tr('启动{}需要先下载{}，是否前往组件管理？').format(
-            spec.display_name, spec.display_name
+        tr('启动{name}需要先下载{name}，是否前往组件管理？').format(
+            name=spec.display_name
         ),
         parent,
     )
@@ -298,8 +298,8 @@ class ComponentManagerDialog(MessageBoxBase):
 
         if spec.browser:
             # 浏览器/驱动：无版本比对，直接确认下载
-            content = tr('确认下载{}？').format(name)
-            box = MessageBoxUpdate(tr('下载{}').format(name), content, self)
+            content = tr('确认下载{name}？').format(name=name)
+            box = MessageBoxUpdate(tr('下载{name}').format(name=name), content, self)
             box.yesButton.setText(tr('下载/更新'))
             box.cancelButton.setText(tr('取消'))
             self._show_confirm_nonblocking(box, key)
@@ -313,26 +313,26 @@ class ComponentManagerDialog(MessageBoxBase):
         if installed and local_ver:
             # 可精确比对（fight）
             if remote_version and local_ver.strip() == remote_version.strip():
-                title = tr('{}已是最新版本').format(name)
+                title = tr('{name}已是最新版本').format(name=name)
                 content = (notes if notes is not None else '') + (
-                    f'\n\n{tr("当前版本 {} 已是最新，仍要重新下载吗？").format(local_ver)}'
+                    f'\n\n{tr("当前版本 {local} 已是最新，仍要重新下载吗？").format(local=local_ver)}'
                 )
                 yes_text = tr('重新下载')
             else:
-                title = tr('发现{}新版本').format(name)
+                title = tr('发现{name}新版本').format(name=name)
                 content = (notes if notes is not None else '') + (
-                    f'\n\n{tr("当前版本 {} → 最新版本 {}，是否更新？").format(local_ver, remote_version)}'
+                    f'\n\n{tr("当前版本 {local} → 最新版本 {remote}，是否更新？").format(local=local_ver, remote=remote_version)}'
                 )
                 yes_text = tr('下载/更新')
         elif installed:
             # 已安装但不可比对：显示远端版本供参考
-            title = tr('{}（当前已安装）').format(name)
+            title = tr('{name}（当前已安装）').format(name=name)
             content = (notes if notes is not None else '') + (
-                f'\n\n{tr("最新版本：{}，如需更新请点击下载").format(remote_ver)}'
+                f'\n\n{tr("最新版本：{remote}，如需更新请点击下载").format(remote=remote_ver)}'
             )
             yes_text = tr('下载/更新')
         else:
-            title = tr('下载{}').format(name)
+            title = tr('下载{name}').format(name=name)
             content = notes if notes is not None else tr('确认下载该组件？')
             yes_text = tr('下载/更新')
 
@@ -451,10 +451,10 @@ class ComponentManagerDialog(MessageBoxBase):
         self.workers.pop(key, None)
         self._speed_states.pop(key, None)
         if key == self.current_key:
-            self.status_label.setText(tr('下载失败: {}').format(message))
+            self.status_label.setText(tr('下载失败: {message}').format(message=message))
             self.detail_label.setText('')
             self._reset_buttons(False)
-        _append_log_text(self.log_edit, 'error', tr('下载失败: {}').format(message))
+        _append_log_text(self.log_edit, 'error', '下载失败: {message}'.format(message=message))
 
     # ── 更新日志（经确认窗展示，见 _confirm_and_download） ─────────
 

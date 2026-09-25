@@ -11,6 +11,7 @@ from utils.logger.logger import Logger
 from typing import Optional
 from utils.singleton import SingletonMeta
 from utils.image_utils import ImageUtils
+from utils.pause import pause_guard
 from module.game import get_game_controller
 from module.ocr import ocr
 from module.config import cfg
@@ -37,19 +38,22 @@ class Automation(metaclass=SingletonMeta):
     def _init_input(self):
         """
         初始化输入处理器，将输入操作如点击、移动等绑定至实例变量。
+
+        所有输入均包一层暂停卡点（`pause_guard`）：暂停期间任何键鼠输入都会停在发出之前。
         """
         self.input_handler = get_game_controller().get_input_handler()
-        self.mouse_click = self.input_handler.mouse_click
-        self.mouse_down = self.input_handler.mouse_down
-        self.mouse_up = self.input_handler.mouse_up
-        self.mouse_move = self.input_handler.mouse_move
-        self.mouse_scroll = self.input_handler.mouse_scroll
-        self.press_key = self.input_handler.press_key
-        self.press_key_down = self.input_handler.press_key_down
-        self.press_key_up = self.input_handler.press_key_up
-        self.secretly_press_key = self.input_handler.secretly_press_key
-        self.press_mouse = self.input_handler.press_mouse
-        self.secretly_write = self.input_handler.secretly_write
+        self.mouse_click = pause_guard(self.input_handler.mouse_click)
+        self.mouse_down = pause_guard(self.input_handler.mouse_down)
+        self.mouse_up = pause_guard(self.input_handler.mouse_up)
+        self.mouse_move = pause_guard(self.input_handler.mouse_move)
+        self.mouse_drag = pause_guard(self.input_handler.mouse_drag)
+        self.mouse_scroll = pause_guard(self.input_handler.mouse_scroll)
+        self.press_key = pause_guard(self.input_handler.press_key)
+        self.press_key_down = pause_guard(self.input_handler.press_key_down)
+        self.press_key_up = pause_guard(self.input_handler.press_key_up)
+        self.secretly_press_key = pause_guard(self.input_handler.secretly_press_key)
+        self.press_mouse = pause_guard(self.input_handler.press_mouse)
+        self.secretly_write = pause_guard(self.input_handler.secretly_write)
 
     def _is_debug_enabled(self):
         """检查调试模式是否启用。"""
@@ -153,6 +157,7 @@ class Automation(metaclass=SingletonMeta):
             (size[1]) / height,
         )
 
+    @pause_guard
     def take_screenshot(self, crop=(0, 0, 1, 1), use_background_screenshot=None, prefer_frame_screenshot=True):
         """
         捕获游戏窗口的截图。
@@ -204,6 +209,7 @@ class Automation(metaclass=SingletonMeta):
         bottom_right = (top_left[0] + int(width / scale_factor), top_left[1] + int(height / scale_factor))
         return top_left, bottom_right
 
+    @pause_guard
     def find_image_element(self, target, threshold, scale_range, relative=False, cacheable=True):
         """
         查找图像元素。
@@ -296,6 +302,7 @@ class Automation(metaclass=SingletonMeta):
             self.logger.error(f"寻找图片并计数出错：{e}")
             return None
 
+    @pause_guard
     def find_image_with_multiple_targets(self, target, threshold, scale_range, relative=False):
         try:
             template = ImageUtils.read_image(target, cv2.IMREAD_GRAYSCALE)
@@ -384,6 +391,7 @@ class Automation(metaclass=SingletonMeta):
             self.logger.error(f"OCR识别失败：{e}")
             self.ocr_result = []  # 确保在异常情况下，ocr_result为列表类型
 
+    @pause_guard
     def find_text_element(self, target, include, need_ocr=True, relative=False):
         """
         查找文本元素。
@@ -465,6 +473,7 @@ class Automation(metaclass=SingletonMeta):
             return top_left
         return None
 
+    @pause_guard
     def find_min_distance_text_element(self, target, source, source_type, include, need_ocr=True, position='bottom_right'):
         """
         查找距离特定源最近的文本元素。
@@ -503,6 +512,7 @@ class Automation(metaclass=SingletonMeta):
         y = (top + bottom) // 2 + offset[1]
         return x, y
 
+    @pause_guard
     def find_hsv_element(self, target, relative=False):
         """
         通过HSV颜色范围查找最大连通区域的外接矩形。
@@ -655,6 +665,7 @@ class Automation(metaclass=SingletonMeta):
         bottom_right = (int(x2 / scale_factor) + offset_x, int(y2 / scale_factor) + offset_y)
         return top_left, bottom_right
 
+    @pause_guard
     def find_yolo_element(self, target, threshold=0.25, relative=False):
         """
         使用YOLO模型查找置信度最高的目标对象。
@@ -688,6 +699,7 @@ class Automation(metaclass=SingletonMeta):
             self.logger.error(f"YOLO查找出错：{e}")
             return None, None
 
+    @pause_guard
     def find_yolo_with_multiple_targets(self, target, threshold=0.25, relative=False):
         """
         使用YOLO模型查找所有匹配的目标对象。
@@ -723,6 +735,7 @@ class Automation(metaclass=SingletonMeta):
             self.logger.error(f"YOLO查找出错：{e}")
             return []
 
+    @pause_guard
     def find_element(self, target, find_type, threshold=None, max_retries=1, crop=(0, 0, 1, 1), take_screenshot=True, relative=False, scale_range=None, include=None, need_ocr=True, source=None, source_type=None, pixel_bgr=None, position="bottom_right", retry_delay: float = 1.0, use_background_screenshot=None, prefer_frame_screenshot=True):
         """
         查找元素，并根据指定的查找类型执行不同的查找策略。
@@ -830,7 +843,7 @@ class Automation(metaclass=SingletonMeta):
         """
         x, y = self.calculate_click_position(coordinates, offset)
         if action not in {"click", "down", "up", "move"}:
-            raise ValueError(f"未知的动作类型: {action}")
+            raise ValueError(f"未知的动作类型： {action}")
 
         normalized_press_duration = max(0.0, float(press_duration or 0.0))
 
@@ -854,6 +867,30 @@ class Automation(metaclass=SingletonMeta):
 
         return True
 
+    def drag_mouse(self, start, end, duration=0.5):
+        """按归一化坐标将鼠标从 start 拖动到 end。"""
+        duration = float(duration)
+        if not math.isfinite(duration) or not 0 <= duration <= 60:
+            raise ValueError("滑动时长必须在 0 到 60 秒之间")
+        if any(not 0 <= value <= 1 for value in (*start, *end)):
+            raise ValueError("坐标必须在 0 到 1 之间")
+        self.take_screenshot()
+        if self.screenshot is None or self.screenshot_pos is None:
+            raise RuntimeError("无法获取游戏窗口尺寸")
+
+        scale_factor = self.screenshot_scale_factor or 1
+        width = int(self.screenshot_pos[2] / scale_factor)
+        height = int(self.screenshot_pos[3] / scale_factor)
+        if width <= 0 or height <= 0:
+            raise RuntimeError("无法获取游戏窗口尺寸")
+        offset_x, offset_y = self.screenshot_pos[:2]
+        start_xy = (offset_x + min(int(start[0] * width), width - 1),
+                    offset_y + min(int(start[1] * height), height - 1))
+        end_xy = (offset_x + min(int(end[0] * width), width - 1),
+                  offset_y + min(int(end[1] * height), height - 1))
+
+        return bool(self.mouse_drag(*start_xy, *end_xy, duration))
+
     def click_element(self, target, find_type, threshold=None, max_retries=1, crop=(0, 0, 1, 1), take_screenshot=True, relative=False, scale_range=None, include=None, need_ocr=True, source=None, source_type=None, pixel_bgr=None, position="bottom_right", offset=(0, 0), action="click", retry_delay: float = 1.0, use_background_screenshot=None, press_duration: float = 0.0, prefer_frame_screenshot=True):
         """
         查找并点击屏幕上的元素。
@@ -874,6 +911,7 @@ class Automation(metaclass=SingletonMeta):
             return self.click_element_with_pos(coordinates, offset, action, press_duration=press_duration)
         return False
 
+    @pause_guard
     def get_single_line_text(self, crop=(0, 0, 1, 1), blacklist=None, max_retries=3, retry_delay=0.0):
         """
         尝试多次获取屏幕截图中的单行文本。
@@ -897,6 +935,7 @@ class Automation(metaclass=SingletonMeta):
         self.logger.debug("OCR未识别到任何文字")
         return None
 
+    @pause_guard
     def is_rgb_ratio_above_threshold(self, crop, rgb, threshold, tolerance=0.0, take_screenshot=True):
         """判断指定 crop 区域内目标 RGB 像素占比是否超过阈值。
 

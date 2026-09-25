@@ -188,9 +188,9 @@ class PypdlDownloader:
 
         os.makedirs(os.path.dirname(self.dest_path) or '.', exist_ok=True)
         if self.description:
-            self._log('info', f'{tr("开始下载更新包")}: {self.description}')
+            self._log('info', f'开始下载更新包: {self.description}')
         else:
-            self._log('info', tr('开始下载更新包'))
+            self._log('info', '开始下载更新包')
         if request_proxy_desc:
             self._log('info', f'更新下载使用代理: {request_proxy_desc}')
         # 全新下载：清掉可能的残留（pypdl 的 overwrite 是跳过已存在文件，非续传）
@@ -234,9 +234,9 @@ class PypdlDownloader:
         except ChecksumMismatchError as error:
             raise DownloadError(build_download_error_message(error)) from error
         if self.description:
-            self._log('info', f'{tr("下载完成")}: {self.description} → {self.dest_path}')
+            self._log('info', f'下载完成: {self.description} → {self.dest_path}')
         else:
-            self._log('info', f'{tr("下载完成")}: {self.dest_path}')
+            self._log('info', f'下载完成: {self.dest_path}')
 
     def _poll_until_done(self, manager, timeout: float = 1800.0) -> None:
         """轮询 pypdl 完成状态，同时转发进度 / 处理取消。
@@ -260,7 +260,7 @@ class PypdlDownloader:
         if self._progress:
             self._progress(manager.current_size, manager.size)
         if manager.failed:
-            raise DownloadError(tr('下载失败：{}').format(', '.join(manager.failed)))
+            raise DownloadError(tr('下载失败：{message}').format(message=', '.join(manager.failed)))
 
     def _verify_sha256(self) -> None:
         if not self.sha256:
