@@ -2,6 +2,28 @@
 
 > 本文件由簡體中文版經 OpenCC 簡繁轉換產生，用語以台灣習慣為準；內容如有差異，請以簡體中文版為準。
 
+## v2026.9.26
+- 新增任務暫停/繼續功能，支援按鈕、全域性快捷鍵與遊戲內日誌懸浮窗狀態顯示
+- 任務日誌區新增右鍵選單，支援複製/全選、清空日誌與開啟日誌資料夾
+- 命令列支援列出與執行自定義流程
+- 修復收藏狀態下無法識別角色緋櫻
+- 修復無法切換到虛構敘事主介面
+- 修復流程編排啟動的流程不切換到遊戲視窗
+- 修復混沌回憶預設關卡範圍調整為 10-12
+- 修復定時任務更新後未恢復托盤最小化狀態
+- 支援 Fate 聯動角色遠坂凜與吉爾伽美什
+- 流程編排支援滑動滑鼠 [#1221](https://github.com/moesnow/March7thAssistant/pull/1221) @AnonMoi
+- 定時任務支援新增流程編排
+- 新增 Qmsg 醬 QQ 推送通知 [#1229](https://github.com/moesnow/March7thAssistant/pull/1229)
+- 修復貨幣戰爭迴圈中的結算退出與開局確認 [#1223](https://github.com/moesnow/March7thAssistant/pull/1223) @LumiaBlack51
+- 修復 SMTP 純文本模式下忽略截圖的問題 [#1217](https://github.com/moesnow/March7thAssistant/pull/1217) @23swccp
+- 修復主頁卡片編輯器深色模式樣式不生效 [#1166](https://github.com/moesnow/March7thAssistant/pull/1166) @wha7ev9r
+- 修復差分宇宙貪吃麵具最後區域選擇階段的確認彈窗
+- 修復配置檔案損壞時未備份導致配置丟失
+- 修復貨幣戰爭雲遊戲保活、超時退出及敗局結算識別 [#1226](https://github.com/moesnow/March7thAssistant/pull/1226) @LumiaBlack51
+- 修復 Docker 單檔案掛載時配置檔案無法儲存 [#1231](https://github.com/moesnow/March7thAssistant/pull/1231) @lingyezhixing
+- 最佳化多語言翻譯，修正繁體用語並補全英日韓文案
+
 ## v2026.9.12
 - 修復貨幣戰爭入口互動異常 [#1209](https://github.com/moesnow/March7thAssistant/pull/1209) @LumiaBlack51
 - 修復 OpenSSL 環境變數導致的啟動閃退

@@ -1,5 +1,27 @@
 # 更新日志
 
+## v2026.9.26
+- 新增任务暂停/继续功能，支持按钮、全局快捷键与游戏内日志悬浮窗状态显示
+- 任务日志区新增右键菜单，支持复制/全选、清空日志与打开日志文件夹
+- 命令行支持列出与运行自定义流程
+- 修复收藏状态下无法识别角色绯樱
+- 修复无法切换到虚构叙事主界面
+- 修复流程编排启动的流程不切换到游戏窗口
+- 修复混沌回忆默认关卡范围调整为 10-12
+- 修复定时任务更新后未恢复托盘最小化状态
+- 支持 Fate 联动角色远坂凛与吉尔伽美什
+- 流程编排支持滑动鼠标 [#1221](https://github.com/moesnow/March7thAssistant/pull/1221) @AnonMoi
+- 定时任务支持添加流程编排
+- 新增 Qmsg 酱 QQ 推送通知 [#1229](https://github.com/moesnow/March7thAssistant/pull/1229)
+- 修复货币战争循环中的结算退出与开局确认 [#1223](https://github.com/moesnow/March7thAssistant/pull/1223) @LumiaBlack51
+- 修复 SMTP 纯文本模式下忽略截图的问题 [#1217](https://github.com/moesnow/March7thAssistant/pull/1217) @23swccp
+- 修复主页卡片编辑器深色模式样式不生效 [#1166](https://github.com/moesnow/March7thAssistant/pull/1166) @wha7ev9r
+- 修复差分宇宙贪吃面具最后区域选择阶段的确认弹窗
+- 修复配置文件损坏时未备份导致配置丢失
+- 修复货币战争云游戏保活、超时退出及败局结算识别 [#1226](https://github.com/moesnow/March7thAssistant/pull/1226) @LumiaBlack51
+- 修复 Docker 单文件挂载时配置文件无法保存 [#1231](https://github.com/moesnow/March7thAssistant/pull/1231) @lingyezhixing
+- 优化多语言翻译，修正繁体用语并补全英日韩文案
+
 ## v2026.9.12
 - 修复货币战争入口交互异常 [#1209](https://github.com/moesnow/March7thAssistant/pull/1209) @LumiaBlack51
 - 修复 OpenSSL 环境变量导致的启动闪退
