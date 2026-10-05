@@ -30,10 +30,6 @@ Open [Releases](https://github.com/moesnow/March7thAssistant/releases/latest) an
 
 Download the full package named like `March7thAssistant_full.zip` or `March7thAssistant_full.7z`.
 
-> March7thAssistant integrates the third-party service [MirrorChyan](https://mirrorchyan.com/?source=m7a-tutorial).
->
-> If downloads are slow in Mainland China, you can try [MirrorChyan high-speed download](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-tutorial).
-
 After the download finishes, right-click the archive and choose “Extract All”, or use a third-party archive tool.
 
 The extracted directory should usually contain at least these files and folders:
@@ -341,6 +337,7 @@ The current version supports more notification channels than older versions. Com
 - Bark
 - SMTP (email)
 - OneBot
+- QQ Official Bot
 - Go-cqhttp
 - DingTalk
 - Pushplus

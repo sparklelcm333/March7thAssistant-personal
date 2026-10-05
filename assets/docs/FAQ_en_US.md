@@ -6,17 +6,7 @@
 
 ### Q: The assistant often fails to update or downloads very slowly. What should I do?
 
-A: March7thAssistant integrates the third-party service [MirrorChyan](https://mirrorchyan.com/?source=m7a-faq), a paid content distribution platform for open-source projects.
-
-It provides us with a free update-check API, but the actual download service is paid.
-
-Even if you do not buy MirrorChyan download service, you can still switch the download source to the overseas source (GitHub) in settings after an update is detected.
-
-If you purchased and entered a CDK, updates no longer depend as much on your own network conditions and downloads will usually be faster and more stable.
-
-The same CDK can also be used for other projects that integrate MirrorChyan, such as MAA.
-
-[First-time download from MirrorChyan high-speed channel](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-faq)
+A: Update packages are downloaded from GitHub, so a poor network connection may cause the download to fail or to be very slow. You can configure the “Update download proxy” in settings (the `update_download_proxy` option in config.yaml, which supports `http://` and `socks5://`), or download the full package manually and extract it over the existing files.
 
 ### Q: The assistant starts slowly / cannot find an executable / shows error 2147942402 / keeps getting deleted by antivirus. What should I do?
 

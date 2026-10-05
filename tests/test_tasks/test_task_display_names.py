@@ -50,7 +50,7 @@ class TestTaskDisplayNames:
         assert AVAILABLE_TASKS[first_id] == first_msgid
 
     def test_both_entrypoints_localize_list(self):
-        """守护：main.py 与 app.py 的 --list 都必须走 task_display_names()。"""
+        """守护：main.py 入口（经 utils/cli.py 共用的参数解析）的 --list 必须走 task_display_names()。"""
         import pathlib
         root = pathlib.Path(__file__).resolve().parents[2]
         for rel in ("utils/cli.py",):

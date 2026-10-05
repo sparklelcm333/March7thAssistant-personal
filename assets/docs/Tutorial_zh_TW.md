@@ -30,10 +30,6 @@
 
 下載名稱類似 `March7thAssistant_full.zip` 或 `March7thAssistant_full.7z` 的完整包。
 
-> March7thAssistant 接入了第三方服務 [Mirror醬](https://mirrorchyan.com/?source=m7a-tutorial)。
->
-> 如果中國大陸下載緩慢，可以嘗試 [點我前往 Mirror醬 高速下載](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-tutorial)。
-
 下載完成後，右鍵選擇 “全部解壓縮” 或使用 [第三方壓縮軟體](https://yasuo.360.cn/) 解壓。
 
 解壓後的目錄中通常至少包含以下檔案（夾）：
@@ -333,7 +329,7 @@ March7th Launcher.exe main -e （任務正常完成後自動退出程式）
 - `啟用自動修改解析度並關閉自動 HDR`：通過小助手啟動遊戲時自動切到 1920×1080 並關閉自動 HDR，適合本地模式使用者。
 - `啟用自動配置遊戲路徑`：會嘗試從快捷方式、官方啟動器或正在執行的遊戲程序中自動識別路徑。
 - `優先使用後臺截圖`：預設建議開啟，可以減少懸浮窗、覆蓋層等對截圖識別的干擾。
-- `在使用者登入時啟動`：通過任務計劃程式在登入後自動啟動；如果想完全無人值守，通常還需要你自己配置系統自動登入。
+- `在使用者登入時啟動`：登入 Windows 後自動啟動（由計劃任務靜默提權，啟動時不會彈出 UAC 提示）；點選「配置」可以選擇啟動後是否開啟圖形介面、是否最小化到托盤以及自動執行的任務（不開啟圖形介面時會彈出命令列視窗執行所選任務，與手動執行命令列版一致）。如果想完全無人值守，通常還需要你自己配置系統自動登入。舊版本首次使用請點選「升級到新版」清理舊的計劃任務。
 
 關於 `OCR 加速模式`：建議先保持 `自動`。各模式說明如下：
 
@@ -357,6 +353,7 @@ March7th Launcher.exe main -e （任務正常完成後自動退出程式）
 - Bark
 - SMTP（郵箱）
 - OneBot
+- QQ 官方機器人
 - Go-cqhttp
 - 釘釘
 - Pushplus

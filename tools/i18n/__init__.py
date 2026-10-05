@@ -23,7 +23,6 @@ from __future__ import annotations
 import ast
 import json
 import re
-import sys
 from collections import Counter
 from pathlib import Path
 
@@ -34,7 +33,7 @@ LOCALES = ["zh_CN", "zh_TW", "ja_JP", "ko_KR", "en_US"]
 
 # 参与提取的源码目录/文件（tests、3rdparty 等不参与）
 SCAN_DIRS = ["app", "module", "tasks", "utils", "tools"]
-SCAN_FILES = ["main.py", "app.py", "updater.py", "build.py"]
+SCAN_FILES = ["main.py", "build.py"]  # 根目录脚本（上游的 app.py/updater.py 在本 fork 已拆分或移除）
 
 # 视为翻译调用的函数名（含 self.tr(...) 形式）
 TRANSLATION_FUNCS = {"tr", "tn"}
@@ -46,20 +45,9 @@ CONTEXT_FUNCS = {"trc"}
 from module.localization import PLURAL_SUFFIX  # noqa: E402
 
 
-def ensure_utf8_output(streams=None) -> None:
-    """把输出流切换到 UTF-8（无法编码的字符替换掉）。
-
-    Windows 的控制台/管道可能把 stdout 绑定到 cp1252 等本地编码，
-    打印中文警告会直接抛 UnicodeEncodeError（CI 曾因此挂掉）；
-    本地 UTF-8 终端不复现，所以必须在工具入口统一兜底。
-    """
-    if streams is None:
-        streams = (sys.stdout, sys.stderr)
-    for stream in streams:
-        try:
-            stream.reconfigure(encoding="utf-8", errors="replace")
-        except Exception:
-            pass
+# 实现收口到 utils/console.py —— 主程序入口 main.py 也要用它（同类的"非 UTF-8 环境打印中文崩溃"），
+# 所以不能在开发工具包里私藏一份。此处仍对外提供同名入口，`python -m tools.i18n` 与测试不用改。
+from utils.console import ensure_utf8_output  # noqa: E402, F401
 
 # 占位符：{name} / {} / { } 等，{{ }} 转义不计
 PLACEHOLDER_RE = re.compile(r"(?<!\{)\{([^{}]*)\}(?!\})")

@@ -30,10 +30,6 @@
 
 `March7thAssistant_full.zip` 또는 `March7thAssistant_full.7z`와 비슷한 이름의 전체 패키지를 다운로드하세요.
 
-> March7thAssistant는 제3자 서비스인 [Mirror짱](https://mirrorchyan.com/?source=m7a-tutorial)을 사용합니다.
->
-> 중국 본토에서 다운로드가 느리다면 [Mirror짱 고속 다운로드](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-tutorial)를 시도해 보세요.
-
 다운로드가 끝나면 압축 파일을 마우스 오른쪽 버튼으로 눌러 “모두 압축 풀기”를 선택하거나, 별도의 압축 프로그램으로 해제하세요.
 
 압축을 푼 폴더에는 보통 최소한 다음 파일과 폴더가 있어야 합니다.
@@ -341,6 +337,7 @@ HoYoverse 런처를 통해 게임 업데이트나 사전 다운로드를 하려�
 - Bark
 - SMTP(이메일)
 - OneBot
+- QQ 공식 봇
 - Go-cqhttp
 - DingTalk
 - Pushplus

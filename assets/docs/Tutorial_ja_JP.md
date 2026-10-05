@@ -30,10 +30,6 @@
 
 `March7thAssistant_full.zip` または `March7thAssistant_full.7z` のような名前のフルパッケージをダウンロードします。
 
-> March7thAssistant はサードパーティサービスの [Mirror酱](https://mirrorchyan.com/?source=m7a-tutorial) を利用しています。
->
-> 中国本土でダウンロードが遅い場合は、[Mirror酱 高速ダウンロード](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-tutorial) を試してください。
-
 ダウンロード後、右クリックして「すべて展開」を選ぶか、サードパーティの解凍ソフトを使って展開してください。
 
 展開後のフォルダーには通常、少なくとも次のファイル / フォルダーが含まれます。
@@ -339,6 +335,7 @@ HoYoverse ランチャー経由で更新や事前ダウンロードを行いた�
 - Bark
 - SMTP（メール）
 - OneBot
+- QQ 公式ボット
 - Go-cqhttp
 - DingTalk
 - Pushplus

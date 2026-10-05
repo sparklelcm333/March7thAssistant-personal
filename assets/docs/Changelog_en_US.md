@@ -7,7 +7,6 @@
 - Added **MeoW** push notification support [#850](https://github.com/moesnow/March7thAssistant/pull/850) @pboymt
 - Optimized performance and stability, fixed several known issues
 - **Note**: Due to a bug in v2026.1.18, please [Manually Download](https://github.com/moesnow/March7thAssistant/releases/tag/v2026.1.21) to update!!!
-- [Fast download for Mirror Chan CDK users](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-release)
 
 ## v2026.1.19
 - Comprehensive upgrade and optimization of the **GUI**
@@ -178,7 +177,7 @@
 - Fixed GUI crash on some options
 - Fixed Gotify push exception
 - Auto_Simulated_Universe v8.04
-- Simulated Universe supports update via Mirror Chan
+- Simulated Universe supports online updates
 
 ## v2025.4.18
 - Adapted to 2nd Anniversary event icon
@@ -187,7 +186,6 @@
 - Auto breakdown 4-star relics when limit reached [#524](https://github.com/moesnow/March7thAssistant/pull/524)
 - OneBot supports sending private and group messages simultaneously [#540](https://github.com/moesnow/March7thAssistant/pull/540)
 - Added Omphalos priority setting for Fhoe-Rail [#547](https://github.com/moesnow/March7thAssistant/pull/547)
-- Optimized Mirror Chan experience
 - Fixed Feishu, Gotify, OneBot push [#520](https://github.com/moesnow/March7thAssistant/pull/520) [#517](https://github.com/moesnow/March7thAssistant/pull/517)
 - Fixed reward claim issue when daily missions incomplete
 - Fixed crash when system does not support Auto Theme [#525](https://github.com/moesnow/March7thAssistant/pull/525)
@@ -198,7 +196,6 @@
 - Support **v3.1** new stages and characters [#486](https://github.com/moesnow/March7thAssistant/pull/486)
 - Support running script/program after task completion [#453](https://github.com/moesnow/March7thAssistant/pull/453)
 - Support running Divergent Universe once weekly (Settings-Universe)
-- Integrated **Mirror Chan** app distribution (About -> Update Source)
 - Fixed dungeon exception after setting Build Target
 - Fixed Classic Simulated Universe entry issue
 - Fixed Consumable synthesis issue [#482](https://github.com/moesnow/March7thAssistant/issues/482)

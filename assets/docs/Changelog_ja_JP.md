@@ -115,7 +115,6 @@
 - MeoW 通知に対応 [#850](https://github.com/moesnow/March7thAssistant/pull/850) @pboymt
 - 性能と安定性を改善し、複数の既知問題を修正
 - 注意：v2026.1.18 には不具合があるため、[手動ダウンロード](https://github.com/moesnow/March7thAssistant/releases/tag/v2026.1.21) で上書き更新してください
-- [Mirror酱 CDK がある場合はこちらから高速ダウンロード](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-release)
 
 ## v2026.1.19
 - GUI を全面的にアップグレード・最適化

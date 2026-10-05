@@ -7,7 +7,6 @@
 - MeoW 푸시 알림 지원 추가 [#850](https://github.com/moesnow/March7thAssistant/pull/850) @pboymt
 - 성능 및 안정성 최적화, 알려진 문제 수정
 - 주의: v2026.1.18 업데이트에 버그가 있으므로, [수동 다운로드](https://github.com/moesnow/March7thAssistant/releases/tag/v2026.1.21)하여 덮어쓰기 업데이트가 필요합니다!!!
-- [Mirror 짱 CDK가 있다면 여기를 클릭하여 고속 다운로드](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-release)
 
 ## v2026.1.19
 - 그래픽 인터페이스 전면 업그레이드 및 최적화
@@ -191,7 +190,7 @@
 - 일부 옵션 사용 시 그래픽 인터페이스 튕김 문제 수정
 - Gotify 푸시 이상 수정
 - 시뮬레이션 우주 (Auto_Simulated_Universe) v8.04
-- 시뮬레이션 우주 Mirror 짱을 통한 업데이트 지원
+- 시뮬레이션 우주 온라인 업데이트 지원
 
 ## v2025.4.18
 
@@ -201,7 +200,6 @@
 - 유물 수량 상한 도달 시 4성 유물 분해 우선 실행 [#524](https://github.com/moesnow/March7thAssistant/pull/524)
 - OneBot 개인 메시지와 그룹 메시지 동시 전송 지원 [#540](https://github.com/moesnow/March7thAssistant/pull/540)
 - 필드 정리에 온파로스 우선순위 설정 항목 추가 [#547](https://github.com/moesnow/March7thAssistant/pull/547)
-- Mirror 짱 사용 경험 최적화, CDK 만료 등 오류 메시지 추가
 - Feishu, Gotify, OneBot 푸시 수정 [#520](https://github.com/moesnow/March7thAssistant/pull/520) [#517](https://github.com/moesnow/March7thAssistant/pull/517)
 - 일일 훈련 미완료 시 보상 수령이 올바르지 않던 문제 수정
 - 시스템이 자동 테마를 지원하지 않을 때 튕기는 문제 수정 [#525](https://github.com/moesnow/March7thAssistant/pull/525)
@@ -213,7 +211,6 @@
 - 3.1 버전 신규 스테이지 및 캐릭터 지원 [#486](https://github.com/moesnow/March7thAssistant/pull/486)
 - 임무 완료 후 지정 프로그램 또는 스크립트 실행 지원 [#453](https://github.com/moesnow/March7thAssistant/pull/453)
 - 매주 1회 차분 우주 우선 실행 지원 (설정-우주)
-- Mirror 짱 서드파티 앱 배포 플랫폼 연동 (정보 → 업데이트 소스)
 - 육성 목표 설정 후 일부 던전 이상 수정
 - 클래식 시뮬레이션 우주 진입 불가 수정
 - 소모품 합성 불가 수정 [#482](https://github.com/moesnow/March7thAssistant/issues/482)

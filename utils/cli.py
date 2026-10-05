@@ -73,6 +73,11 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='启动后最小化到托盘（GUI）',
     )
+    optional.add_argument(
+        '--autostart',
+        action='store_true',
+        help='开机自启入口（由计划任务传入，按配置决定是否打开图形界面及自动执行的任务）',
+    )
 
     args = parser.parse_args()
 

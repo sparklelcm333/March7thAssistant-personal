@@ -53,11 +53,12 @@ function Write-Log([string]$Message) {
 
 function Start-MainProgram {
     # 启动主程序（当前构建产物 March7thAssistant.exe）。Start-Process 本身即分离进程。
+    # 注意：PS 5.1 的 -ArgumentList 不接受空数组（ValidateNotNullOrEmpty），无参数时不要传。
     $launcher = Join-Path $Target "March7thAssistant.exe"
     if (Test-Path $launcher) {
-        $argList = @()
-        if ($StartMinimized) { $argList += "--start-minimized-to-tray" }
-        Start-Process -FilePath $launcher -WorkingDirectory $Target -ArgumentList $argList
+        $psArgs = @{ FilePath = $launcher; WorkingDirectory = $Target }
+        if ($StartMinimized) { $psArgs['ArgumentList'] = '--start-minimized-to-tray' }
+        Start-Process @psArgs
         return $true
     }
     Write-Log "ERROR: 未找到可启动的主程序"

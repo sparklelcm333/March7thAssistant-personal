@@ -147,6 +147,7 @@ jobs:
           gh release download $prevTag --repo ${{ github.repository }} --pattern "*full.7z" --dir ./old_build
           $full7z = Get-ChildItem -Path ./old_build -Filter "*full.7z" | Select-Object -First 1
           if ($full7z) {
+            Remove-Item -Path "./prev_version" -Recurse -Force -ErrorAction SilentlyContinue
             & "C:\Program Files\7-Zip\7z.exe" x -y $full7z.FullName -o"./prev_version"
           }
         env:

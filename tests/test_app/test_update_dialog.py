@@ -2,7 +2,7 @@
 """更新弹窗测试：长更新日志可滚动，底部按钮固定可见可点。
 
 personal 版 MessageBoxUpdate 直接用 TextBrowser 承载更新日志（自带滚动条），
-既没有 GitHub / Mirror酱 两张更新卡片，也没有外置 QScrollArea（_scroll 恒为 None）。
+既没有两张更新源卡片，也没有外置 QScrollArea（_scroll 恒为 None）。
 """
 import sys
 

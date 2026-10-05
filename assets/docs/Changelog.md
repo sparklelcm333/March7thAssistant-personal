@@ -31,7 +31,7 @@
 - 按需安装组件：模拟宇宙、锄大地等原本必装的组件改为按需安装，减少不必要的存储占用
 - 单 exe 双模式：GUI 与 CLI 无头任务合并为一个 exe（运行时可能弹出 cmd 窗口，此为权衡之举）
 - 组件管理器：GUI 内集中管理组件（模拟宇宙/锄大地/FPS 解锁器/浏览器）的下载与更新
-- 去除个人不需要的功能：移除 Mirror酱、匿名数据上报等
+- 去除个人不需要的功能：移除第三方付费分发渠道、匿名数据上报等
 
 ## v2026.8.28
 - 启动游戏前检测游戏是否已在运行 [#1189](https://github.com/moesnow/March7thAssistant/pull/1189) @girl-dream
@@ -234,7 +234,6 @@
 - 新增 MeoW 推送支持 [#850](https://github.com/moesnow/March7thAssistant/pull/850) @pboymt
 - 优化性能和稳定性并修复若干已知问题
 - 注意：因为 v2026.1.18 更新存在 bug，需要 [手动下载](https://github.com/moesnow/March7thAssistant/releases/tag/v2026.1.21) 覆盖更新到新版本！！！
-- [若已有 Mirror酱 CDK 可点此处高速下载](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-release)
 
 ## v2026.1.19
 - 对图形界面进行了全面升级优化
@@ -418,7 +417,7 @@
 - 修复部分选项导致图形界面闪退
 - 修复 Gotify 推送异常
 - 模拟宇宙（Auto_Simulated_Universe）v8.04
-- 模拟宇宙支持通过 Mirror酱 进行更新
+- 模拟宇宙支持在线更新
 
 ## v2025.4.18
 
@@ -428,7 +427,6 @@
 - 当遗器数量达到上限时，将会先执行分解四星遗器 [#524](https://github.com/moesnow/March7thAssistant/pull/524)
 - OneBot 支持同时发送私聊消息和群消息 [#540](https://github.com/moesnow/March7thAssistant/pull/540)
 - 锄大地增加翁法洛斯优先级设置项 [#547](https://github.com/moesnow/March7thAssistant/pull/547)
-- 优化 Mirror酱 使用体验，增加CDK过期等错误提示
 - 修复 飞书、Gotify、OneBot 推送 [#520](https://github.com/moesnow/March7thAssistant/pull/520) [#517](https://github.com/moesnow/March7thAssistant/pull/517)
 - 修复未完成全部日常任务时可能无法正确领取奖励
 - 修复系统不支持自动主题时导致的闪退 [#525](https://github.com/moesnow/March7thAssistant/pull/525)
@@ -440,7 +438,6 @@
 - 支持 3.1 版本新增关卡和角色 [#486](https://github.com/moesnow/March7thAssistant/pull/486)
 - 支持任务完成后运行指定程序或脚本 [#453](https://github.com/moesnow/March7thAssistant/pull/453)
 - 支持每周优先运行一次差分宇宙（设置-宇宙）
-- 接入 Mirror酱 第三方应用分发平台（关于 → 更新源）
 - 修复设置培养目标后部分副本异常
 - 修复无法进入经典模拟宇宙界面
 - 修复无法正常合成消耗品 [#482](https://github.com/moesnow/March7thAssistant/issues/482)

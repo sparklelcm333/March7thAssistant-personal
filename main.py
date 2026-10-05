@@ -10,6 +10,13 @@ from utils.frozen import is_frozen
 os.chdir(os.path.dirname(sys.executable) if is_frozen() else os.path.dirname(os.path.abspath(__file__)))
 
 
+from utils.console import ensure_utf8_output
+
+# 输出流固定成 UTF-8：非 UTF-8 环境（cp1252 / cp936 / cp932 的控制台或管道）下打印中文会直接抛
+# UnicodeEncodeError；而且 GUI 的内嵌日志（app/log_interface.py）现在也按 UTF-8 解码子进程输出。
+ensure_utf8_output()
+
+
 
 from utils.dpi import configure_dpi_awareness
 
@@ -546,6 +553,21 @@ if __name__ == "__main__":
     load_language()
     # 唯一入口：解析参数 → 无头模式执行任务，否则启动 GUI
     args = parse_args()
+    # 开机自启（--autostart，由计划任务在登录时以最高权限传入）：
+    # 按 config.yaml 的 autostart_* 决定是否打开图形界面、是否最小化到托盘
+    _autostart_minimized = False
+    if getattr(args, "autostart", False):
+        try:
+            from module.config import cfg as _autostart_cfg
+            if not _autostart_cfg.get_value("autostart_open_gui", True):
+                # 不打开图形界面：交由命令行版在独立命令行窗口中执行所选任务（与手动运行一致）
+                from utils.autostart import launch_headless_task
+                launch_headless_task(_autostart_cfg.get_value("autostart_headless_task") or "main")
+                sys.exit(0)
+            _autostart_minimized = bool(_autostart_cfg.get_value("autostart_minimize", False))
+        except Exception:
+            # 配置读取异常不应阻塞登录自启，按普通启动继续
+            pass
     # --list-workflows：列出可用流程后退出（不进入任务/GUI 模式）
     if getattr(args, "list_workflows", False):
         from module.workflow import list_workflow_names
@@ -566,4 +588,4 @@ if __name__ == "__main__":
         # GUI 模式：提权由 gui.py/manifest 处理，直接启动图形界面
         from gui import run_gui
         # 参数已由 parse_args 解析，直接透传，避免 gui 再从 sys.argv 二次判定（缩写等语义不一致）
-        sys.exit(run_gui(start_minimized_to_tray=getattr(args, "start_minimized_to_tray", False)))
+        sys.exit(run_gui(start_minimized_to_tray=getattr(args, "start_minimized_to_tray", False) or _autostart_minimized))

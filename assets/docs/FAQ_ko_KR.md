@@ -6,17 +6,7 @@
 
 ### Q: 업데이트가 자주 실패하거나 다운로드가 너무 느립니다. 어떻게 해야 하나요?
 
-A: March7thAssistant는 오픈소스 프로젝트용 유료 콘텐츠 배포 플랫폼인 [Mirror짱](https://mirrorchyan.com/?source=m7a-faq)과 연동되어 있습니다.
-
-업데이트 확인 기능은 무료로 제공되지만, 실제 다운로드 서비스는 유료입니다.
-
-Mirror짱 다운로드 서비스를 구매하지 않더라도, 업데이트가 감지된 뒤 설정에서 해외 소스(GitHub)로 바꾸면 무료로 다운로드할 수 있습니다.
-
-CDK를 구매해 입력하면 네트워크 상태에 덜 영향을 받고 더 빠르고 안정적으로 업데이트할 수 있습니다.
-
-같은 CDK는 MAA처럼 Mirror짱을 사용하는 다른 프로젝트에도 사용할 수 있습니다.
-
-[Mirror짱 고속 다운로드 바로가기](https://mirrorchyan.com/zh/download?rid=March7thAssistant&os=&arch=&channel=stable&source=m7a-faq)
+A: 업데이트 패키지는 GitHub에서 다운로드하므로 네트워크 상태가 좋지 않으면 실패하거나 매우 느릴 수 있습니다. 설정에서 업데이트 다운로드 프록시(config.yaml의 `update_download_proxy`, `http://`와 `socks5://` 지원)를 지정하거나, 전체 패키지를 직접 다운로드해 압축을 풀어 덮어쓰면 됩니다.
 
 ### Q: 실행이 느리거나 실행 파일을 찾을 수 없고, 2147942402 오류가 뜨거나, 백신이 자꾸 파일을 지웁니다. 어떻게 해야 하나요?
 
