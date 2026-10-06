@@ -1,5 +1,24 @@
 # 更新日志
 
+## v2026.10.6
+- 新增 QQ 官方机器人通知渠道
+- 修复更新时偶发的配置文件损坏或被重置为默认值的问题
+- 修复 OCR GPU(DML) 加速被误降级到 CPU 的问题 [#1178](https://github.com/moesnow/March7thAssistant/pull/1178) @KiMelody
+- 支持 4.6 新增副本，适配缺失角色与皮肤 [#1240](https://github.com/moesnow/March7thAssistant/pull/1240) @0frostmourne0
+- “自动分解四星遗器” 升级为 “每周清理遗器” [#1234](https://github.com/moesnow/March7thAssistant/pull/1234) @23swccp
+- “每周清理遗器” 新增 “启用智能弃置” 设置 [#1235](https://github.com/moesnow/March7thAssistant/pull/1235) @23swccp
+- 新增支持保存 “差分宇宙” 存档 [#1233](https://github.com/moesnow/March7thAssistant/pull/1233) @23swccp
+- 锄大地新增「特殊物品领取」分组、翁法罗斯代币开关与三预设快捷配置 [#1243](https://github.com/moesnow/March7thAssistant/pull/1243) @smjes3
+- 修复子进程日志中文显示不全（乱码）的问题 [#1242](https://github.com/moesnow/March7thAssistant/pull/1242) @smjes3
+- 修复任务暂停后悬浮窗提示与暂停热键行为不一致
+- 任务日志显示区限制保留行数（默认 5000 行），避免长任务下文档无限膨胀
+- 开关类设置卡片兼容配置缺键返回的空值
+- 引入外部图标库并替换 GUI 图标，界面更统一
+- openpyxl 改为延迟导入，加快界面启动
+- 多处配置写入改为批量一次落盘，缩小并发写窗口
+- 补全多语言译文并修正部分占位译文
+- 依赖更新：pyinstaller 6.22.3、urllib3 2.8.0
+
 ## v2026.9.26
 - 新增任务暂停/继续功能，支持按钮、全局快捷键与游戏内日志悬浮窗状态显示
 - 任务日志区新增右键菜单，支持复制/全选、清空日志与打开日志文件夹

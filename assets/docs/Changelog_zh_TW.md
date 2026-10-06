@@ -2,6 +2,25 @@
 
 > 本文件由簡體中文版經 OpenCC 簡繁轉換產生，用語以台灣習慣為準；內容如有差異，請以簡體中文版為準。
 
+## v2026.10.6
+- 新增 QQ 官方機器人通知渠道
+- 修復更新時偶發的配置檔案損壞或被重置為預設值的問題
+- 修復 OCR GPU(DML) 加速被誤降級到 CPU 的問題 [#1178](https://github.com/moesnow/March7thAssistant/pull/1178) @KiMelody
+- 支援 4.6 新增副本，適配缺失角色與皮膚 [#1240](https://github.com/moesnow/March7thAssistant/pull/1240) @0frostmourne0
+- “自動分解四星遺器” 升級為 “每週清理遺器” [#1234](https://github.com/moesnow/March7thAssistant/pull/1234) @23swccp
+- “每週清理遺器” 新增 “啟用智慧棄置” 設定 [#1235](https://github.com/moesnow/March7thAssistant/pull/1235) @23swccp
+- 新增支援儲存 “差分宇宙” 存檔 [#1233](https://github.com/moesnow/March7thAssistant/pull/1233) @23swccp
+- 鋤大地新增「特殊物品領取」分組、翁法羅斯代幣開關與三預設快捷配置 [#1243](https://github.com/moesnow/March7thAssistant/pull/1243) @smjes3
+- 修復子程序日誌中文顯示不全（亂碼）的問題 [#1242](https://github.com/moesnow/March7thAssistant/pull/1242) @smjes3
+- 修復任務暫停後懸浮窗提示與暫停熱鍵行為不一致
+- 任務日誌顯示區限制保留行數（預設 5000 行），避免長任務下文件無限膨脹
+- 開關類設定卡片相容配置缺鍵返回的空值
+- 引入外部圖示庫並替換 GUI 圖示，介面更統一
+- openpyxl 改為延遲匯入，加快介面啟動
+- 多處配置寫入改為批次一次落盤，縮小併發寫視窗
+- 補全多語言譯文並修正部分佔位譯文
+- 依賴更新：pyinstaller 6.22.3、urllib3 2.8.0
+
 ## v2026.9.26
 - 新增任務暫停/繼續功能，支援按鈕、全域性快捷鍵與遊戲內日誌懸浮窗狀態顯示
 - 任務日誌區新增右鍵選單，支援複製/全選、清空日誌與開啟日誌資料夾
